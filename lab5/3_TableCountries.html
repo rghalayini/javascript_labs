@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Countries Table</title>
+    <style>
+        td,
+        th {
+            background: #DDD;
+            padding: 5px 10px
+        }
+        
+        input[type='text'] {
+            width: 60px
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="initialize-table.js"></script> -->
+</head>
+
+<body>
+    <table id="countriesTable">
+        <tr>
+            <th>Country</th>
+            <th>Capital</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td><input type="text" id="newCountryText" /></td>
+            <td><input type="text" id="newCapitalText" /></td>
+            <td><a href="#" id="createLink">[Create]</a></td>
+        </tr>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#createLink').click(function() {
+                let country = $('#newCountryText').val();
+                let capital = $('#newCapitalText').val();
+
+                $('#countriesTable').append($('<tr>')
+                    .append(`<td> ${country} </td>`)
+                    .append(`<td> ${capital} </td>`)
+                    .append($("<td><a class='MoveUp' href='#'>[Up]</a> <a class='MoveDown' href='#'>[Down]</a> <a class='Delete' href='#'>[Delete]</a></td>"))
+                );
+                $("#newCountryText").val("");
+                $("#newCapitalText").val("");
+            });
+
+            $(document).on("click", "a.Delete", function() {
+                $(this).parent().parent().remove();
+            });
+
+            $(document).on("click", "a.MoveUp", function() {
+                let row = $(this).parent().parent();
+                row.fadeOut(function() {
+                    row.insertBefore(row.prev());
+                    row.fadeIn();
+                });
+            });
+
+            $(document).on("click", "a.MoveDown", function() {
+                let row = $(this).parent().parent();
+                row.fadeOut(function() {
+                    row.insertAfter(row.next());
+                    row.fadeIn();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

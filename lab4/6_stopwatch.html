@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Stopwatch</title>
+</head>
+
+<body>
+    <div id="time" style="border:3px solid blue; text-align:center; font-size:2em; margin-bottom:10px">00:00</div>
+    <button id="startBtn">Start</button>
+    <button id="stopBtn" disabled="true">Stop</button>
+
+    <script>
+        var startbutton = document.getElementById("startBtn");
+        var stopbutton = document.getElementById("stopBtn");
+        var time = document.getElementById("time");
+        var minutes = 0;
+        var seconds = 0;
+        var interval;
+
+        function addtime() {
+            seconds++;
+            if (seconds >= 60) {
+                minutes++;
+                seconds = 0;
+            }
+            time.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+        }
+
+        function startTimer() {
+            addtime();
+            interval = setInterval(addtime, 1000);
+            stopbutton.disabled = false;
+            startbutton.disabled = true;
+        }
+
+        function pauseTimer() {
+            clearInterval(interval);
+            startbutton.disabled = false;
+            stopbutton.disabled = true;
+        }
+
+        function resetTimer() {
+            time.textContent = "00:00";
+            minutes = 0;
+            seconds = 0;
+        }
+
+        //stop
+        stopbutton.onclick = pauseTimer;
+
+        //start or clear button 
+        startbutton.onclick = function() {
+            let i;
+            if (seconds > 0) {
+                i = resetTimer();
+            } else {
+                i = startTimer();
+            }
+            return i;
+        }
+    </script>
+</body>
+
+</html>
